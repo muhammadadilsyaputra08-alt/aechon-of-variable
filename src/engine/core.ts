@@ -11,6 +11,8 @@ export interface Scene {
   down?(x: number, y: number): void;
   move?(x: number, y: number): void;
   up?(x: number, y: number): void;
+  /** Sentuhan dibatalkan (pointer hilang): lepaskan semua tombol tanpa memicu aksi. */
+  cancel?(): void;
   /** Tombol back Android / Esc. Kembalikan true bila sudah ditangani. */
   back?(): boolean;
   /** Bila true, scene di bawahnya tetap digambar (modal). */
@@ -31,12 +33,28 @@ export class App {
   get top(): Scene | undefined {
     return this.stack[this.stack.length - 1];
   }
-  private swap(fn: () => void, animate: boolean): void {
+  private swap(fn0: () => void, animate: boolean): void {
+    const fn = (): void => {
+      UI.cancelAll();
+      fn0();
+    };
+    // Jalankan dulu aksi yang masih menunggu agar tidak hilang tertimpa (penyebab tombol "tidak merespon").
+    this.flushFade();
     if (!animate || save.data.settings.reduceFx || this.stack.length === 0) {
       fn();
       return;
     }
     this.fade = { a: 0, dir: 1, then: fn };
+  }
+  private flushFade(): void {
+    const f = this.fade;
+    if (f.dir === 1 && f.then) {
+      const fn = f.then;
+      f.then = null;
+      f.a = 0;
+      f.dir = 0;
+      fn();
+    }
   }
   push(s: Scene, animate = true): void {
     this.swap(() => {
@@ -123,10 +141,16 @@ export class App {
     if (!this.blocked()) this.top?.down?.(x, y);
   }
   move(x: number, y: number): void {
-    if (!this.blocked()) this.top?.move?.(x, y);
+    this.top?.move?.(x, y);
   }
   up(x: number, y: number): void {
-    if (!this.blocked()) this.top?.up?.(x, y);
+    // Selalu teruskan 'up' agar tombol yang sedang ditekan dilepas (tidak macet saat transisi fade).
+    this.top?.up?.(x, y);
+  }
+  /** Batalkan interaksi sentuh yang menggantung (pointer hilang, app ke latar belakang). */
+  cancelInput(): void {
+    UI.cancelAll();
+    this.top?.cancel?.();
   }
 }
 
@@ -168,6 +192,12 @@ export class Button {
 
 /** Kumpulan tombol dengan penanganan sentuh, tahan-ulang (repeat), dan umpan balik suara. */
 export class UI {
+  /** UI yang terakhir memegang tombol aktif, agar bisa dibatalkan dari luar (mis. pointer hilang). */
+  static holder: UI | null = null;
+  static cancelAll(): void {
+    UI.holder?.cancel();
+    UI.holder = null;
+  }
   items: Button[] = [];
   private active: Button | null = null;
   add<T extends Button>(b: T): T {
@@ -179,10 +209,12 @@ export class UI {
     this.active = null;
   }
   down(x: number, y: number): boolean {
+    this.cancel();
     for (let i = this.items.length - 1; i >= 0; i--) {
       const b = this.items[i];
       if (b.hit(x, y)) {
         this.active = b;
+        UI.holder = this;
         b.pressed = true;
         b.holdT = 0;
         b.fired = 0;
@@ -199,13 +231,20 @@ export class UI {
     const b = this.active;
     this.active = null;
     if (!b) return false;
-    const was = b.pressed;
     b.pressed = false;
-    if (was && b.hit(x, y) && !(b.opts.repeat && b.fired > 0)) b.onTap();
+    if (b.hit(x, y) && !(b.opts.repeat && b.fired > 0)) b.onTap();
     return true;
+  }
+  cancel(): void {
+    if (this.active) this.active.pressed = false;
+    this.active = null;
   }
   update(dt: number): void {
     const b = this.active;
+    if (b && (!b.visible || !b.enabled)) {
+      this.cancel();
+      return;
+    }
     if (b?.pressed && b.opts.repeat) {
       b.holdT += dt;
       if (b.holdT > 0.4 + b.fired * 0.1) {

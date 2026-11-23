@@ -338,8 +338,11 @@ export class PuzzleScene implements Scene {
       this.o.onDone({ stars: 0, attempts: Math.max(1, this.attempts), hints: this.hintLevel, steps: this.steps, seconds: Math.round(this.elapsed), success: false });
     }
     const dv = this.isBalance;
-    this.opBtns.forEach((b, i) => (b.pressed = false, b.enabled = !this.solved && ['sub', 'add', 'div'][i] !== undefined));
-    this.termBtns.forEach((b) => (b.visible = dv && this.op !== 'div'));
+    this.opBtns.forEach((b) => (b.enabled = !this.solved));
+    this.termBtns.forEach((b) => {
+      b.visible = dv && this.op !== 'div';
+      b.enabled = !this.solved;
+    });
     if (this.btnSubmit) this.btnSubmit.enabled = !this.solved;
     this.btnDone.visible = this.solved && this.revealT > 0.7;
   }

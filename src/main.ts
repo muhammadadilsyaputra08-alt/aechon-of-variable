@@ -36,30 +36,55 @@ function pos(e: PointerEvent): [number, number] {
   return [((e.clientX - r.left) / r.width) * W, ((e.clientY - r.top) / r.height) * H];
 }
 let activePointer: number | null = null;
+let lastPos: [number, number] = [0, 0];
+const release = (cancel: boolean): void => {
+  if (activePointer === null) return;
+  activePointer = null;
+  if (cancel) app.cancelInput();
+  else app.up(...lastPos);
+};
 canvas.addEventListener('pointerdown', (e) => {
-  if (activePointer !== null) return;
+  // Pointer lama yang tidak pernah dilepas (event hilang) dibatalkan agar input tidak macet.
+  if (activePointer !== null) {
+    if (e.pointerType !== 'mouse' && e.pointerId !== activePointer && e.isPrimary) release(true);
+    else return;
+  }
   activePointer = e.pointerId;
-  canvas.setPointerCapture(e.pointerId);
-  app.down(...pos(e));
+  try {
+    canvas.setPointerCapture(e.pointerId);
+  } catch {
+    /* pointer sudah tidak aktif */
+  }
+  lastPos = pos(e);
+  app.down(...lastPos);
   e.preventDefault();
 });
 canvas.addEventListener('pointermove', (e) => {
-  if (e.pointerId === activePointer) app.move(...pos(e));
+  if (e.pointerId !== activePointer) return;
+  lastPos = pos(e);
+  app.move(...lastPos);
 });
 const end = (e: PointerEvent): void => {
   if (e.pointerId !== activePointer) return;
-  activePointer = null;
-  app.up(...pos(e));
+  lastPos = pos(e);
+  release(e.type === 'pointercancel');
 };
 canvas.addEventListener('pointerup', end);
 canvas.addEventListener('pointercancel', end);
+canvas.addEventListener('lostpointercapture', (e) => {
+  if (e.pointerId === activePointer) release(true);
+});
+window.addEventListener('blur', () => release(true));
 canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') app.back();
 });
 
 document.addEventListener('visibilitychange', () => {
-  if (document.hidden) save.flush();
+  if (document.hidden) {
+    release(true);
+    save.flush();
+  }
 });
 window.addEventListener('pagehide', () => save.flush());
 
