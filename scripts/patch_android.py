@@ -49,10 +49,10 @@ public class MainActivity extends BridgeActivity {
 gr = A / "app/build.gradle"
 s = gr.read_text()
 if "keystore.properties" not in s:
-    s = s.replace('versionCode 1\n        versionName "1.0"',
-                  'versionCode (project.findProperty("versionCode") ?: System.getenv("VERSION_CODE") ?: "1").toInteger()\n'
-                  '        versionName (project.findProperty("versionName") ?: System.getenv("VERSION_NAME") ?: "1.0.0")')
-    s = s.replace("android {\n    namespace", '''def keystoreProps = new Properties()
+    s = s.replace('versionCode 1\n        versionName "1.0"', 'versionCode appVersionCode\n        versionName appVersionName')
+    s = s.replace("android {\n    namespace", '''def appVersionCode = Integer.parseInt((project.findProperty("versionCode") ?: System.getenv("VERSION_CODE") ?: "1").toString())
+def appVersionName = (project.findProperty("versionName") ?: System.getenv("VERSION_NAME") ?: "1.0.0").toString()
+def keystoreProps = new Properties()
 def keystoreFile = rootProject.file("keystore.properties")
 if (keystoreFile.exists()) keystoreFile.withInputStream { keystoreProps.load(it) }
 
