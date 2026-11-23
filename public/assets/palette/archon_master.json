@@ -1,0 +1,213 @@
+{
+  "id": "archon_master",
+  "colors": {
+    "ink": "#1b1530",
+    "blue0": "#1f2a5a",
+    "blue1": "#2f4fa0",
+    "blue2": "#4f86dc",
+    "blue3": "#9cc8f8",
+    "gold0": "#7a3e12",
+    "gold1": "#c8821a",
+    "gold2": "#f4c038",
+    "gold3": "#fff0a0",
+    "red0": "#4e0e28",
+    "red1": "#a21e42",
+    "red2": "#e8485a",
+    "red3": "#ffa8a0",
+    "vio0": "#2a1450",
+    "vio1": "#5a2c92",
+    "vio2": "#9a54d2",
+    "vio3": "#dca4f4",
+    "cyan0": "#0b3550",
+    "cyan1": "#127c9e",
+    "cyan2": "#30c8dc",
+    "cyan3": "#b0f6f2",
+    "mag0": "#5e1456",
+    "mag1": "#b02a8c",
+    "mag2": "#f062bc",
+    "mag3": "#ffb4e2",
+    "ind0": "#14123a",
+    "ind1": "#2c2c7c",
+    "ind2": "#5c5cc8",
+    "ind3": "#a4acf6",
+    "stone0": "#2a2542",
+    "stone1": "#4a4268",
+    "stone2": "#7a7298",
+    "stone3": "#b8b2d0",
+    "cream0": "#7a6450",
+    "cream1": "#b8a084",
+    "cream2": "#e6d4ac",
+    "cream3": "#fbf0d2",
+    "skin0": "#5a3426",
+    "skin1": "#8e5c3c",
+    "skin2": "#c88c60",
+    "skin3": "#f2c496",
+    "plum0": "#26142e",
+    "plum1": "#4a2450",
+    "plum2": "#7a3c78",
+    "plum3": "#b0689e",
+    "moss0": "#1f4a3a",
+    "moss1": "#3a7a52",
+    "moss2": "#6cb070",
+    "moss3": "#b8e090",
+    "snow0": "#8c9cc0",
+    "snow1": "#c8d8f0",
+    "snow2": "#eef6ff",
+    "snow3": "#ffffff",
+    "void0": "#08060f",
+    "void1": "#1a0f2a"
+  },
+  "ramps": {
+    "blue": [
+      "#1f2a5a",
+      "#2f4fa0",
+      "#4f86dc",
+      "#9cc8f8"
+    ],
+    "gold": [
+      "#7a3e12",
+      "#c8821a",
+      "#f4c038",
+      "#fff0a0"
+    ],
+    "red": [
+      "#4e0e28",
+      "#a21e42",
+      "#e8485a",
+      "#ffa8a0"
+    ],
+    "vio": [
+      "#2a1450",
+      "#5a2c92",
+      "#9a54d2",
+      "#dca4f4"
+    ],
+    "cyan": [
+      "#0b3550",
+      "#127c9e",
+      "#30c8dc",
+      "#b0f6f2"
+    ],
+    "mag": [
+      "#5e1456",
+      "#b02a8c",
+      "#f062bc",
+      "#ffb4e2"
+    ],
+    "ind": [
+      "#14123a",
+      "#2c2c7c",
+      "#5c5cc8",
+      "#a4acf6"
+    ],
+    "stone": [
+      "#2a2542",
+      "#4a4268",
+      "#7a7298",
+      "#b8b2d0"
+    ],
+    "cream": [
+      "#7a6450",
+      "#b8a084",
+      "#e6d4ac",
+      "#fbf0d2"
+    ],
+    "skin": [
+      "#5a3426",
+      "#8e5c3c",
+      "#c88c60",
+      "#f2c496"
+    ],
+    "plum": [
+      "#26142e",
+      "#4a2450",
+      "#7a3c78",
+      "#b0689e"
+    ],
+    "moss": [
+      "#1f4a3a",
+      "#3a7a52",
+      "#6cb070",
+      "#b8e090"
+    ],
+    "snow": [
+      "#8c9cc0",
+      "#c8d8f0",
+      "#eef6ff",
+      "#ffffff"
+    ],
+    "void": [
+      "#08060f",
+      "#1a0f2a"
+    ]
+  },
+  "tier_themes": {
+    "1": {
+      "name": "foundation",
+      "architecture": [
+        "#7a6450",
+        "#b8a084",
+        "#e6d4ac",
+        "#fbf0d2"
+      ],
+      "accent": [
+        "#7a3e12",
+        "#c8821a",
+        "#f4c038",
+        "#fff0a0"
+      ]
+    },
+    "2": {
+      "name": "energy_network",
+      "architecture": [
+        "#2a2542",
+        "#4a4268",
+        "#7a7298",
+        "#b8b2d0"
+      ],
+      "accent": [
+        "#0b3550",
+        "#127c9e",
+        "#30c8dc",
+        "#b0f6f2"
+      ]
+    },
+    "3": {
+      "name": "resonance_chambers",
+      "architecture": [
+        "#2a1450",
+        "#5a2c92",
+        "#7a7298",
+        "#b8b2d0"
+      ],
+      "accent": [
+        "#5e1456",
+        "#b02a8c",
+        "#f062bc",
+        "#ffb4e2"
+      ]
+    },
+    "4": {
+      "name": "dimensional_sanctum",
+      "architecture": [
+        "#14123a",
+        "#2c2c7c",
+        "#5c5cc8",
+        "#c8d8f0"
+      ],
+      "accent": [
+        "#c8821a",
+        "#f4c038",
+        "#fff0a0",
+        "#ffffff"
+      ]
+    }
+  },
+  "semantic": {
+    "unit_1": "#4f86dc",
+    "variable_x": "#f4c038",
+    "neg_unit": "#e8485a",
+    "neg_x": "#9a54d2",
+    "outline": "#1b1530"
+  }
+}

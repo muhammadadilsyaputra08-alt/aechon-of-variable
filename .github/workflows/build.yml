@@ -1,0 +1,169 @@
+name: Build Archon of Variables
+
+on:
+  push:
+    branches: [main]
+    tags: ['v*']
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+env:
+  NODE_VERSION: '22'
+  JAVA_VERSION: '21'
+
+jobs:
+  verify:
+    name: Lint · Typecheck · Test · Web build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+      - run: npm ci
+      - name: Lint
+        run: npm run lint
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Unit & smoke tests (Math Engine, Archivist Engine, semua scene)
+        run: npm test
+      - name: Build web
+        run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: web-dist
+          path: dist
+          retention-days: 14
+
+  android:
+    name: Android APK / AAB
+    needs: verify
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: npm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ env.JAVA_VERSION }}
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Versi build
+        id: ver
+        run: |
+          if [[ "$GITHUB_REF" == refs/tags/v* ]]; then NAME="${GITHUB_REF_NAME#v}"; else NAME="1.0.${GITHUB_RUN_NUMBER}"; fi
+          echo "name=$NAME" >> "$GITHUB_OUTPUT"
+          echo "VERSION_NAME=$NAME" >> "$GITHUB_ENV"
+          echo "VERSION_CODE=${GITHUB_RUN_NUMBER}" >> "$GITHUB_ENV"
+
+      - run: npm ci
+
+      - name: Build web & sinkronkan ke Android
+        run: |
+          npm run build
+          npx cap sync android
+
+      - name: Izin eksekusi gradlew
+        run: chmod +x android/gradlew
+
+      - name: Build APK debug
+        working-directory: android
+        run: ./gradlew assembleDebug --stacktrace
+
+      - name: Siapkan keystore rilis (opsional)
+        id: ks
+        env:
+          KS_B64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+          KS_PASS: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+          KEY_PASS: ${{ secrets.ANDROID_KEY_PASSWORD }}
+        run: |
+          if [ -n "$KS_B64" ] && [ -n "$KS_PASS" ] && [ -n "$KEY_ALIAS" ]; then
+            echo "$KS_B64" | base64 -d > android/release.keystore
+            {
+              echo "storeFile=../release.keystore"
+              echo "storePassword=$KS_PASS"
+              echo "keyAlias=$KEY_ALIAS"
+              echo "keyPassword=${KEY_PASS:-$KS_PASS}"
+            } > android/keystore.properties
+            echo "signed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "signed=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Secrets keystore tidak ada — build rilis ditandatangani dilewati (APK debug tetap dibuat)."
+          fi
+
+      - name: Build APK + AAB rilis (ditandatangani)
+        if: steps.ks.outputs.signed == 'true'
+        working-directory: android
+        run: ./gradlew assembleRelease bundleRelease --stacktrace
+
+      - name: Kumpulkan hasil build
+        run: |
+          mkdir -p out
+          cp android/app/build/outputs/apk/debug/app-debug.apk "out/archon-of-variables-${{ steps.ver.outputs.name }}-debug.apk"
+          if [ "${{ steps.ks.outputs.signed }}" = "true" ]; then
+            cp android/app/build/outputs/apk/release/app-release.apk "out/archon-of-variables-${{ steps.ver.outputs.name }}-release.apk"
+            cp android/app/build/outputs/bundle/release/app-release.aab "out/archon-of-variables-${{ steps.ver.outputs.name }}-release.aab"
+          fi
+          ls -la out
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: android-build
+          path: out/*
+          if-no-files-found: error
+          retention-days: 30
+
+  release:
+    name: GitHub Release (tag v*)
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: android
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: android-build
+          path: out
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: out/*
+          generate_release_notes: true
+
+  pages:
+    name: Deploy web ke GitHub Pages (opsional)
+    if: github.ref == 'refs/heads/main' && vars.DEPLOY_PAGES == 'true'
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: web-dist
+          path: dist
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+      - id: deploy
+        uses: actions/deploy-pages@v4

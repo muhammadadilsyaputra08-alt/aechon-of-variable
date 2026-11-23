@@ -1,0 +1,86 @@
+/** Lokalisasi UI. Bahasa awal: Indonesia; tambahan: Inggris. */
+import { Bi } from '../data/topics';
+
+export type Lang = 'id' | 'en';
+let lang: Lang = 'id';
+export const setLang = (l: Lang): void => void (lang = l);
+export const getLang = (): Lang => lang;
+
+const D: Record<string, Bi> = {
+  title: { id: 'ARCHON OF VARIABLES', en: 'ARCHON OF VARIABLES' },
+  tagline: { id: 'Pulihkan Menara. Kuasai yang Tak Diketahui.', en: 'Restore the Tower. Master the Unknown.' },
+  continue: { id: 'Lanjutkan', en: 'Continue' },
+  campaign: { id: 'Kampanye', en: 'Campaign' },
+  codex: { id: 'Algebra Codex', en: 'Algebra Codex' },
+  sandbox: { id: 'Laboratorium', en: 'Sandbox Lab' },
+  challenge: { id: 'Mode Tantangan', en: 'Challenge Mode' },
+  settings: { id: 'Pengaturan', en: 'Settings' },
+  back: { id: 'Kembali', en: 'Back' },
+  ok: { id: 'OK', en: 'OK' },
+  cancel: { id: 'Batal', en: 'Cancel' },
+  resume: { id: 'Lanjut', en: 'Resume' },
+  quit: { id: 'Keluar ke Menu', en: 'Quit to Menu' },
+  paused: { id: 'Jeda', en: 'Paused' },
+  activate: { id: 'AKTIFKAN', en: 'ACTIVATE' },
+  apply: { id: 'TERAPKAN', en: 'APPLY' },
+  next: { id: 'Lanjut', en: 'Next' },
+  hint: { id: 'Petunjuk', en: 'Hint' },
+  hintLevel: { id: 'X-Ray Steps', en: 'X-Ray Steps' },
+  moreHint: { id: 'Petunjuk berikutnya', en: 'Next hint' },
+  floor: { id: 'Lantai', en: 'Floor' },
+  locked: { id: 'Terkunci', en: 'Locked' },
+  ruined: { id: 'Hancur', en: 'Ruined' },
+  partial: { id: 'Sebagian Pulih', en: 'Partially Restored' },
+  full: { id: 'Pulih Penuh', en: 'Fully Restored' },
+  restored: { id: 'LANTAI DIPULIHKAN', en: 'FLOOR RESTORED' },
+  correct: { id: 'Benar! Kristal menyala.', en: 'Correct! The crystals glow.' },
+  tryAgain: { id: 'Belum tepat. Kesalahan adalah bagian dari belajar.', en: 'Not quite. Mistakes are part of learning.' },
+  language: { id: 'Bahasa', en: 'Language' },
+  textSize: { id: 'Ukuran teks', en: 'Text size' },
+  animSpeed: { id: 'Kecepatan animasi', en: 'Animation speed' },
+  typeSpeed: { id: 'Kecepatan teks', en: 'Text speed' },
+  reduceFx: { id: 'Kurangi efek visual', en: 'Reduce visual effects' },
+  music: { id: 'Musik', en: 'Music' },
+  sfx: { id: 'Efek suara', en: 'Sound FX' },
+  replayTutorial: { id: 'Ulangi Tutorial', en: 'Replay Tutorial' },
+  resetSave: { id: 'Hapus Data', en: 'Erase Data' },
+  confirmReset: { id: 'Hapus seluruh progres?', en: 'Erase all progress?' },
+  on: { id: 'Nyala', en: 'On' },
+  off: { id: 'Mati', en: 'Off' },
+  small: { id: 'Normal', en: 'Normal' },
+  large: { id: 'Besar', en: 'Large' },
+  slow: { id: 'Lambat', en: 'Slow' },
+  normal: { id: 'Normal', en: 'Normal' },
+  fast: { id: 'Cepat', en: 'Fast' },
+  undo: { id: 'Urungkan', en: 'Undo' },
+  reset: { id: 'Ulang', en: 'Reset' },
+  stars: { id: 'Bintang', en: 'Stars' },
+  shards: { id: 'Arcane Shard', en: 'Arcane Shards' },
+  kp: { id: 'Knowledge Point', en: 'Knowledge Points' },
+  search: { id: 'Cari', en: 'Search' },
+  bookmark: { id: 'Tandai', en: 'Bookmark' },
+  practice: { id: 'Latihan', en: 'Practice' },
+  formulaSheet: { id: 'Formula', en: 'Formulas' },
+  learned: { id: 'Dipelajari', en: 'Learned' },
+  labs: { id: 'Laboratorium Aljabar', en: 'Algebra Laboratory' },
+  review: { id: 'Ulasan', en: 'Review' },
+  rematch: { id: 'Guardian Rematch', en: 'Guardian Rematch' },
+  achievements: { id: 'Pencapaian', en: 'Achievements' },
+  history: { id: 'Riwayat', en: 'History' },
+  auto: { id: 'Auto', en: 'Auto' },
+  skip: { id: 'Lewati', en: 'Skip' },
+  tapContinue: { id: 'Ketuk untuk lanjut', en: 'Tap to continue' },
+  submit: { id: 'Periksa', en: 'Check' },
+  start: { id: 'Mulai', en: 'Start' },
+  results: { id: 'Hasil', en: 'Results' },
+  retry: { id: 'Ulangi', en: 'Retry' },
+  timer: { id: 'Pakai timer', en: 'Use timer' },
+  newGame: { id: 'Permainan Baru', en: 'New Game' },
+  tutorialTitle: { id: 'Tutorial', en: 'Tutorial' },
+};
+
+export function t(key: string): string {
+  const e = D[key];
+  return e ? e[lang] : key;
+}
+export const tb = (b: Bi): string => b[lang];

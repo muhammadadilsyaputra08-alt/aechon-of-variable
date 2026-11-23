@@ -1,0 +1,59 @@
+GIMP Palette
+Name: Archon Master
+Columns: 8
+#
+ 27  21  48 ink
+ 31  42  90 blue0
+ 47  79 160 blue1
+ 79 134 220 blue2
+156 200 248 blue3
+122  62  18 gold0
+200 130  26 gold1
+244 192  56 gold2
+255 240 160 gold3
+ 78  14  40 red0
+162  30  66 red1
+232  72  90 red2
+255 168 160 red3
+ 42  20  80 vio0
+ 90  44 146 vio1
+154  84 210 vio2
+220 164 244 vio3
+ 11  53  80 cyan0
+ 18 124 158 cyan1
+ 48 200 220 cyan2
+176 246 242 cyan3
+ 94  20  86 mag0
+176  42 140 mag1
+240  98 188 mag2
+255 180 226 mag3
+ 20  18  58 ind0
+ 44  44 124 ind1
+ 92  92 200 ind2
+164 172 246 ind3
+ 42  37  66 stone0
+ 74  66 104 stone1
+122 114 152 stone2
+184 178 208 stone3
+122 100  80 cream0
+184 160 132 cream1
+230 212 172 cream2
+251 240 210 cream3
+ 90  52  38 skin0
+142  92  60 skin1
+200 140  96 skin2
+242 196 150 skin3
+ 38  20  46 plum0
+ 74  36  80 plum1
+122  60 120 plum2
+176 104 158 plum3
+ 31  74  58 moss0
+ 58 122  82 moss1
+108 176 112 moss2
+184 224 144 moss3
+140 156 192 snow0
+200 216 240 snow1
+238 246 255 snow2
+255 255 255 snow3
+  8   6  15 void0
+ 26  15  42 void1

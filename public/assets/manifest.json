@@ -1,0 +1,1719 @@
+{
+  "game": "Archon of Variables",
+  "version": "1.0.0",
+  "base_resolution": [
+    320,
+    180
+  ],
+  "scale_policy": "integer nearest-neighbor (6x=1920x1080, 4x=1280x720); letterbox sisanya",
+  "palette": "palette/archon_master.json",
+  "sheets": {
+    "crystals": {
+      "file": "sprites/crystals.png",
+      "size": [
+        192,
+        32
+      ],
+      "cell": [
+        16,
+        16
+      ],
+      "frames": {
+        "unit_normal": {
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "unit_selected": {
+          "x": 16,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "unit_ghost": {
+          "x": 32,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "x_normal": {
+          "x": 48,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "x_selected": {
+          "x": 64,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "x_ghost": {
+          "x": 80,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "neg1_normal": {
+          "x": 96,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "neg1_selected": {
+          "x": 112,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "neg1_ghost": {
+          "x": 128,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "negx_normal": {
+          "x": 144,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "negx_selected": {
+          "x": 160,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "negx_ghost": {
+          "x": 176,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "mystery_box_closed": {
+          "x": 0,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "mystery_box_open": {
+          "x": 16,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        }
+      },
+      "animations": {}
+    },
+    "puzzle_objects": {
+      "file": "sprites/puzzle_objects.png",
+      "size": [
+        192,
+        96
+      ],
+      "cell": [
+        32,
+        32
+      ],
+      "frames": {
+        "chest_closed": {
+          "x": 0,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "chest_open": {
+          "x": 32,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "energy_node_off": {
+          "x": 64,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "energy_node_on": {
+          "x": 96,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "gate_off": {
+          "x": 128,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "gate_on": {
+          "x": 160,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "ring_target": {
+          "x": 0,
+          "y": 32,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "coord_target": {
+          "x": 32,
+          "y": 32,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "forbidden_barrier": {
+          "x": 64,
+          "y": 32,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "factor_machine_idle": {
+          "x": 96,
+          "y": 32,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "factor_machine_active": {
+          "x": 128,
+          "y": 32,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "exponent_reactor_off": {
+          "x": 160,
+          "y": 32,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "exponent_reactor_on": {
+          "x": 0,
+          "y": 64,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "log_archive_tome": {
+          "x": 32,
+          "y": 64,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "matrix_cell": {
+          "x": 64,
+          "y": 64,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "eigen_arrow": {
+          "x": 96,
+          "y": 64,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        },
+        "complex_orb": {
+          "x": 128,
+          "y": 64,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            16
+          ]
+        }
+      },
+      "animations": {
+        "gate_activate": {
+          "frames": [
+            "gate_off",
+            "gate_on"
+          ],
+          "fps": 4,
+          "loop": false
+        },
+        "node_pulse": {
+          "frames": [
+            "energy_node_off",
+            "energy_node_on"
+          ],
+          "fps": 2,
+          "loop": true
+        },
+        "chest_open": {
+          "frames": [
+            "chest_closed",
+            "chest_open"
+          ],
+          "fps": 4,
+          "loop": false
+        }
+      }
+    },
+    "balance_scale": {
+      "file": "sprites/balance_scale.png",
+      "size": [
+        288,
+        64
+      ],
+      "cell": [
+        96,
+        64
+      ],
+      "frames": {
+        "left_heavy": {
+          "x": 0,
+          "y": 0,
+          "w": 96,
+          "h": 64,
+          "pivot": [
+            48,
+            63
+          ]
+        },
+        "balanced": {
+          "x": 96,
+          "y": 0,
+          "w": 96,
+          "h": 64,
+          "pivot": [
+            48,
+            63
+          ]
+        },
+        "right_heavy": {
+          "x": 192,
+          "y": 0,
+          "w": 96,
+          "h": 64,
+          "pivot": [
+            48,
+            63
+          ]
+        }
+      },
+      "animations": {
+        "settle": {
+          "frames": [
+            "left_heavy",
+            "balanced"
+          ],
+          "fps": 3,
+          "loop": false
+        }
+      }
+    },
+    "portraits": {
+      "file": "sprites/portraits.png",
+      "size": [
+        256,
+        192
+      ],
+      "cell": [
+        64,
+        64
+      ],
+      "frames": {
+        "axiom_neutral": {
+          "x": 0,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "axiom_happy": {
+          "x": 64,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "axiom_surprised": {
+          "x": 128,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "axiom_thinking": {
+          "x": 192,
+          "y": 0,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "elyra_neutral": {
+          "x": 0,
+          "y": 64,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "elyra_happy": {
+          "x": 64,
+          "y": 64,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "elyra_surprised": {
+          "x": 128,
+          "y": 64,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "elyra_thinking": {
+          "x": 192,
+          "y": 64,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "null_neutral": {
+          "x": 0,
+          "y": 128,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "null_happy": {
+          "x": 64,
+          "y": 128,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "null_surprised": {
+          "x": 128,
+          "y": 128,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        },
+        "null_thinking": {
+          "x": 192,
+          "y": 128,
+          "w": 64,
+          "h": 64,
+          "pivot": [
+            32,
+            63
+          ]
+        }
+      },
+      "animations": {}
+    },
+    "characters": {
+      "file": "sprites/characters.png",
+      "size": [
+        288,
+        96
+      ],
+      "cell": [
+        48,
+        48
+      ],
+      "frames": {
+        "axiom_idle_0": {
+          "x": 0,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            40
+          ]
+        },
+        "axiom_idle_1": {
+          "x": 48,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            40
+          ]
+        },
+        "axiom_idle_2": {
+          "x": 96,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            40
+          ]
+        },
+        "axiom_idle_3": {
+          "x": 144,
+          "y": 0,
+          "w": 32,
+          "h": 32,
+          "pivot": [
+            16,
+            40
+          ]
+        },
+        "elyra_idle_0": {
+          "x": 192,
+          "y": 0,
+          "w": 32,
+          "h": 48,
+          "pivot": [
+            16,
+            47
+          ]
+        },
+        "elyra_idle_1": {
+          "x": 240,
+          "y": 0,
+          "w": 32,
+          "h": 48,
+          "pivot": [
+            16,
+            47
+          ]
+        },
+        "architect_idle_0": {
+          "x": 0,
+          "y": 48,
+          "w": 32,
+          "h": 48,
+          "pivot": [
+            16,
+            47
+          ]
+        },
+        "architect_idle_1": {
+          "x": 48,
+          "y": 48,
+          "w": 32,
+          "h": 48,
+          "pivot": [
+            16,
+            47
+          ]
+        },
+        "null_idle_0": {
+          "x": 96,
+          "y": 48,
+          "w": 48,
+          "h": 48,
+          "pivot": [
+            24,
+            47
+          ]
+        },
+        "null_idle_1": {
+          "x": 144,
+          "y": 48,
+          "w": 48,
+          "h": 48,
+          "pivot": [
+            24,
+            47
+          ]
+        }
+      },
+      "animations": {
+        "axiom_idle": {
+          "frames": [
+            "axiom_idle_0",
+            "axiom_idle_1",
+            "axiom_idle_2",
+            "axiom_idle_3"
+          ],
+          "fps": 6,
+          "loop": true
+        },
+        "elyra_idle": {
+          "frames": [
+            "elyra_idle_0",
+            "elyra_idle_1"
+          ],
+          "fps": 2,
+          "loop": true
+        },
+        "architect_idle": {
+          "frames": [
+            "architect_idle_0",
+            "architect_idle_1"
+          ],
+          "fps": 2,
+          "loop": true
+        },
+        "null_idle": {
+          "frames": [
+            "null_idle_0",
+            "null_idle_1"
+          ],
+          "fps": 2,
+          "loop": true
+        }
+      }
+    },
+    "guardian_keeper_of_balance": {
+      "file": "sprites/guardian_keeper_of_balance.png",
+      "size": [
+        192,
+        112
+      ],
+      "cell": [
+        96,
+        112
+      ],
+      "frames": {
+        "idle_0": {
+          "x": 0,
+          "y": 0,
+          "w": 96,
+          "h": 112,
+          "pivot": [
+            48,
+            111
+          ]
+        },
+        "idle_1": {
+          "x": 96,
+          "y": 0,
+          "w": 96,
+          "h": 112,
+          "pivot": [
+            48,
+            111
+          ]
+        }
+      },
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle_0",
+            "idle_1"
+          ],
+          "fps": 2,
+          "loop": true
+        }
+      }
+    },
+    "guardian_twin_sentinels": {
+      "file": "sprites/guardian_twin_sentinels.png",
+      "size": [
+        320,
+        112
+      ],
+      "cell": [
+        160,
+        112
+      ],
+      "frames": {
+        "idle_0": {
+          "x": 0,
+          "y": 0,
+          "w": 160,
+          "h": 112,
+          "pivot": [
+            80,
+            111
+          ]
+        },
+        "idle_1": {
+          "x": 160,
+          "y": 0,
+          "w": 160,
+          "h": 112,
+          "pivot": [
+            80,
+            111
+          ]
+        }
+      },
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle_0",
+            "idle_1"
+          ],
+          "fps": 2,
+          "loop": true
+        }
+      }
+    },
+    "guardian_polynomial_devourer": {
+      "file": "sprites/guardian_polynomial_devourer.png",
+      "size": [
+        256,
+        112
+      ],
+      "cell": [
+        128,
+        112
+      ],
+      "frames": {
+        "idle_0": {
+          "x": 0,
+          "y": 0,
+          "w": 128,
+          "h": 112,
+          "pivot": [
+            64,
+            111
+          ]
+        },
+        "idle_1": {
+          "x": 128,
+          "y": 0,
+          "w": 128,
+          "h": 112,
+          "pivot": [
+            64,
+            111
+          ]
+        }
+      },
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle_0",
+            "idle_1"
+          ],
+          "fps": 2,
+          "loop": true
+        }
+      }
+    },
+    "guardian_null_architect": {
+      "file": "sprites/guardian_null_architect.png",
+      "size": [
+        256,
+        128
+      ],
+      "cell": [
+        128,
+        128
+      ],
+      "frames": {
+        "idle_0": {
+          "x": 0,
+          "y": 0,
+          "w": 128,
+          "h": 128,
+          "pivot": [
+            64,
+            127
+          ]
+        },
+        "idle_1": {
+          "x": 128,
+          "y": 0,
+          "w": 128,
+          "h": 128,
+          "pivot": [
+            64,
+            127
+          ]
+        }
+      },
+      "animations": {
+        "idle": {
+          "frames": [
+            "idle_0",
+            "idle_1"
+          ],
+          "fps": 2,
+          "loop": true
+        }
+      }
+    },
+    "tileset": {
+      "file": "tiles/tileset.png",
+      "size": [
+        192,
+        64
+      ],
+      "cell": [
+        16,
+        16
+      ],
+      "frames": {
+        "t1_floor": {
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_floor_cracked": {
+          "x": 16,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_floor_rune": {
+          "x": 32,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_wall_brick": {
+          "x": 48,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_wall_brick_cracked": {
+          "x": 64,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_wall_top": {
+          "x": 80,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_pillar_base": {
+          "x": 96,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_pillar_shaft": {
+          "x": 112,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_pillar_cap": {
+          "x": 128,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_crystal_lit": {
+          "x": 144,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_crystal_dead": {
+          "x": 160,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t1_platform_edge": {
+          "x": 176,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_floor": {
+          "x": 0,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_floor_cracked": {
+          "x": 16,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_floor_rune": {
+          "x": 32,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_wall_brick": {
+          "x": 48,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_wall_brick_cracked": {
+          "x": 64,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_wall_top": {
+          "x": 80,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_pillar_base": {
+          "x": 96,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_pillar_shaft": {
+          "x": 112,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_pillar_cap": {
+          "x": 128,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_crystal_lit": {
+          "x": 144,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_crystal_dead": {
+          "x": 160,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t2_platform_edge": {
+          "x": 176,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_floor": {
+          "x": 0,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_floor_cracked": {
+          "x": 16,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_floor_rune": {
+          "x": 32,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_wall_brick": {
+          "x": 48,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_wall_brick_cracked": {
+          "x": 64,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_wall_top": {
+          "x": 80,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_pillar_base": {
+          "x": 96,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_pillar_shaft": {
+          "x": 112,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_pillar_cap": {
+          "x": 128,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_crystal_lit": {
+          "x": 144,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_crystal_dead": {
+          "x": 160,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t3_platform_edge": {
+          "x": 176,
+          "y": 32,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_floor": {
+          "x": 0,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_floor_cracked": {
+          "x": 16,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_floor_rune": {
+          "x": 32,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_wall_brick": {
+          "x": 48,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_wall_brick_cracked": {
+          "x": 64,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_wall_top": {
+          "x": 80,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_pillar_base": {
+          "x": 96,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_pillar_shaft": {
+          "x": 112,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_pillar_cap": {
+          "x": 128,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_crystal_lit": {
+          "x": 144,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_crystal_dead": {
+          "x": 160,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "t4_platform_edge": {
+          "x": 176,
+          "y": 48,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        }
+      },
+      "animations": {},
+      "rows": {
+        "tier1": "foundation",
+        "tier2": "energy_network",
+        "tier3": "resonance_chambers",
+        "tier4": "dimensional_sanctum"
+      }
+    },
+    "ui_icons": {
+      "file": "ui/ui_icons.png",
+      "size": [
+        128,
+        32
+      ],
+      "cell": [
+        16,
+        16
+      ],
+      "frames": {
+        "icon_hint": {
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_undo": {
+          "x": 16,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_reset": {
+          "x": 32,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_codex": {
+          "x": 48,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_pause": {
+          "x": 64,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_auto": {
+          "x": 80,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_skip": {
+          "x": 96,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_history": {
+          "x": 112,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_settings": {
+          "x": 0,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_lock": {
+          "x": 16,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_check": {
+          "x": 32,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_close": {
+          "x": 48,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "star_full": {
+          "x": 64,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "star_empty": {
+          "x": 80,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "arcane_shard": {
+          "x": 96,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "knowledge_point": {
+          "x": 112,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        }
+      },
+      "animations": {}
+    }
+  },
+  "images": {
+    "bg_t1_foundation_ruined": {
+      "file": "backgrounds/bg_t1_foundation_ruined.png",
+      "size": [
+        320,
+        180
+      ]
+    },
+    "bg_t1_foundation_restored": {
+      "file": "backgrounds/bg_t1_foundation_restored.png",
+      "size": [
+        320,
+        180
+      ]
+    },
+    "bg_t2_energy_network_ruined": {
+      "file": "backgrounds/bg_t2_energy_network_ruined.png",
+      "size": [
+        320,
+        180
+      ]
+    },
+    "bg_t2_energy_network_restored": {
+      "file": "backgrounds/bg_t2_energy_network_restored.png",
+      "size": [
+        320,
+        180
+      ]
+    },
+    "bg_t3_resonance_chambers_ruined": {
+      "file": "backgrounds/bg_t3_resonance_chambers_ruined.png",
+      "size": [
+        320,
+        180
+      ]
+    },
+    "bg_t3_resonance_chambers_restored": {
+      "file": "backgrounds/bg_t3_resonance_chambers_restored.png",
+      "size": [
+        320,
+        180
+      ]
+    },
+    "bg_t4_dimensional_sanctum_ruined": {
+      "file": "backgrounds/bg_t4_dimensional_sanctum_ruined.png",
+      "size": [
+        320,
+        180
+      ]
+    },
+    "bg_t4_dimensional_sanctum_restored": {
+      "file": "backgrounds/bg_t4_dimensional_sanctum_restored.png",
+      "size": [
+        320,
+        180
+      ]
+    },
+    "dialogue_box": {
+      "file": "ui/dialogue_box.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "name_plate": {
+      "file": "ui/name_plate.png",
+      "size": [
+        48,
+        16
+      ]
+    },
+    "codex_panel": {
+      "file": "ui/codex_panel.png",
+      "size": [
+        48,
+        48
+      ]
+    },
+    "button_normal": {
+      "file": "ui/button_normal.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "button_pressed": {
+      "file": "ui/button_pressed.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "button_disabled": {
+      "file": "ui/button_disabled.png",
+      "size": [
+        32,
+        32
+      ]
+    },
+    "floor_badge": {
+      "file": "ui/floor_badge.png",
+      "size": [
+        40,
+        16
+      ]
+    },
+    "progress_frame": {
+      "file": "ui/progress_frame.png",
+      "size": [
+        24,
+        8
+      ]
+    },
+    "progress_fill": {
+      "file": "ui/progress_fill.png",
+      "size": [
+        4,
+        4
+      ]
+    },
+    "app_icon_64": {
+      "file": "ui/app_icon_64.png",
+      "size": [
+        64,
+        64
+      ]
+    },
+    "app_icon_512": {
+      "file": "ui/app_icon_512.png",
+      "size": [
+        512,
+        512
+      ],
+      "note": "8x nearest dari 64"
+    }
+  },
+  "nine_slice": {
+    "dialogue_box": {
+      "border": 8
+    },
+    "name_plate": {
+      "border": 6
+    },
+    "codex_panel": {
+      "border": 8
+    },
+    "button_normal": {
+      "border": 6
+    },
+    "button_pressed": {
+      "border": 6
+    },
+    "button_disabled": {
+      "border": 6
+    },
+    "floor_badge": {
+      "border": 6
+    },
+    "progress_frame": {
+      "border": 3
+    }
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "name": "archon-of-variables",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Archon of Variables \u2014 pixel art visual novel puzzle-strategy game untuk belajar aljabar (Android-first).",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src tests",
+    "test": "vitest run",
+    "cap:sync": "cap sync android",
+    "android:icons": "python3 scripts/make_android_icons.py",
+    "android:debug": "npm run build && cap sync android && cd android && ./gradlew assembleDebug",
+    "android:release": "npm run build && cap sync android && cd android && ./gradlew assembleRelease bundleRelease",
+    "android:setup": "python3 scripts/patch_android.py && python3 scripts/make_android_icons.py"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.6.2",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.6.2"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^8.6.2",
+    "@eslint/js": "^9.39.0",
+    "eslint": "^9.39.0",
+    "globals": "^16.0.0",
+    "typescript": "~5.9.3",
+    "typescript-eslint": "^8.40.0",
+    "vite": "^7.3.0",
+    "vitest": "^3.2.0"
+  }
+}

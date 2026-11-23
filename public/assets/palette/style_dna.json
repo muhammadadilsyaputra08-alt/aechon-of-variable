@@ -1,0 +1,65 @@
+{
+  "style_profile": {
+    "id": "archon_pixel_v1_v1",
+    "name": "archon_pixel_v1",
+    "version": 1,
+    "resolution": 256,
+    "description": "Auto-extracted from out/sprites/portraits.png",
+    "created_at": "2026-11-22T12:59:56.067962+00:00",
+    "palette": {
+      "max_colors": 0,
+      "colors": [],
+      "outline_color": "#000000",
+      "highlight_color": null,
+      "shadow_color": null
+    },
+    "outline": {
+      "thickness": 2,
+      "style": "full_dark",
+      "anti_aliasing": false,
+      "internal_outline_usage": "high",
+      "coverage_target": 0.486
+    },
+    "shading": {
+      "levels": 4,
+      "light_direction": "top_left",
+      "dithering_level": 0.1,
+      "shadow_hue_bias": "cool",
+      "highlight_hue_bias": "warm",
+      "avoid": [
+        "pillow_shading",
+        "banding"
+      ]
+    },
+    "shape": {
+      "silhouette": "medium",
+      "detail_density": 0.45,
+      "edge_style": "clean_stairstep"
+    },
+    "animation": {
+      "frame_alignment": "strict",
+      "palette_lock": true,
+      "outline_lock": true,
+      "pivot_stability": true
+    },
+    "ramps": [],
+    "source_analysis": {
+      "grid": {
+        "canvas_size": [
+          256,
+          192
+        ],
+        "detected_base_resolution": [
+          256,
+          192
+        ],
+        "upscale_factor": 1,
+        "grid_alignment": "perfect",
+        "anti_aliasing_detected": false,
+        "pixel_perfect_score": 0.95
+      },
+      "pixel_perfect_score": 0.95,
+      "source": "out/sprites/portraits.png"
+    }
+  }
+}
