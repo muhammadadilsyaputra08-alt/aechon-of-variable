@@ -15,6 +15,7 @@ import './scenes/lab';
 import './scenes/challenge';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
+audio.themeUrl = `${import.meta.env.BASE_URL}audio/vara-loka-theme.mp3`;
 const g = new Gfx(canvas);
 const app = new App(g);
 setApp(app);
@@ -85,6 +86,7 @@ document.addEventListener('visibilitychange', () => {
     release(true);
     save.flush();
   }
+  audio.suspend(document.hidden);
 });
 window.addEventListener('pagehide', () => save.flush());
 

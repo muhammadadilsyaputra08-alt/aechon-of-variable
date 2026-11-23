@@ -15,6 +15,7 @@ export interface DialogueOpts {
 }
 
 export class DialogueScene implements Scene {
+  ambient = true;
   private ui = new UI();
   private queue: Line[];
   private idx = 0;

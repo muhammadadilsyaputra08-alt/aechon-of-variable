@@ -1,4 +1,4 @@
-/** Audio prosedural WebAudio (tanpa berkas): efek suara + musik ambient berubah per tier. */
+/** Audio: efek suara + musik ambient prosedural per tier (WebAudio), dan tema Vara-Loka (berkas MP3, loop) untuk menu/peta. */
 import { save } from './save';
 
 type Sfx = 'tap' | 'move' | 'ok' | 'bad' | 'restore' | 'star' | 'blip' | 'hint' | 'whoosh' | 'boss';
@@ -18,8 +18,65 @@ class AudioEngine {
   private intensity = 0;
   private step = 0;
 
+  /* ---- Tema Vara-Loka (berkas audio, loop) ---- */
+  /** URL tema; diatur dari main.ts agar mengikuti BASE_URL. */
+  themeUrl = '';
+  private theme: HTMLAudioElement | null = null;
+  private themeWanted = false;
+  private themeLevel = 0; // 0..1, untuk fade in/out
+  private fadeTimer: ReturnType<typeof setInterval> | null = null;
+  private unlocked = false;
+
+  /** True bila tema Vara-Loka sedang dipakai (musik prosedural dibisukan agar tidak bertabrakan). */
+  get themeActive(): boolean {
+    return this.themeWanted || this.themeLevel > 0.01;
+  }
+  /** Minta tema diputar (true) atau di-fade out (false). Aman dipanggil berulang tiap frame. */
+  setTheme(on: boolean): void {
+    if (this.themeWanted === on) return;
+    this.themeWanted = on;
+    this.startTheme();
+  }
+  private startTheme(): void {
+    if (!this.unlocked || !this.themeUrl) return;
+    if (!this.theme) {
+      const a = new Audio(this.themeUrl);
+      a.loop = true;
+      a.preload = 'auto';
+      a.volume = 0;
+      this.theme = a;
+    }
+    if (this.themeWanted && this.theme.paused && save.data.settings.music > 0) {
+      void this.theme.play().catch(() => {
+        /* diblokir autoplay: dicoba lagi pada gestur berikutnya */
+      });
+    }
+    if (!this.fadeTimer) this.fadeTimer = setInterval(() => this.fadeStep(), 50);
+  }
+  private fadeStep(): void {
+    const a = this.theme;
+    if (!a) return;
+    const target = this.themeWanted && save.data.settings.music > 0 ? 1 : 0;
+    const d = target - this.themeLevel;
+    this.themeLevel = Math.abs(d) < 0.03 ? target : this.themeLevel + Math.sign(d) * 0.04;
+    a.volume = Math.max(0, Math.min(1, this.themeLevel * 0.7 * save.data.settings.music));
+    if (this.themeLevel === 0 && target === 0 && !a.paused) a.pause();
+    if (this.themeLevel === target && this.fadeTimer && (target === 0 || !a.paused)) {
+      clearInterval(this.fadeTimer);
+      this.fadeTimer = null;
+    }
+  }
+  /** Jeda saat app di latar belakang, lanjut saat kembali. */
+  suspend(hidden: boolean): void {
+    if (!this.theme) return;
+    if (hidden) this.theme.pause();
+    else this.startTheme();
+  }
+
   /** Harus dipanggil dari gestur pengguna pertama. */
   unlock(): void {
+    this.unlocked = true;
+    if (this.themeWanted) this.startTheme();
     if (this.ctx || typeof AudioContext === 'undefined') {
       void this.ctx?.resume();
       return;
@@ -34,6 +91,10 @@ class AudioEngine {
   }
   applyVolumes(): void {
     if (this.musicGain) this.musicGain.gain.value = 0.18 * save.data.settings.music;
+    if (this.theme) {
+      if (this.themeWanted && save.data.settings.music > 0 && this.theme.paused) this.startTheme();
+      else if (!this.fadeTimer) this.fadeTimer = setInterval(() => this.fadeStep(), 50);
+    }
   }
   setMood(tier: number, intensity: 0 | 1 | 2): void {
     this.tier = tier;
@@ -55,7 +116,7 @@ class AudioEngine {
     o.stop(t0 + dur + 0.05);
   }
   private tick(): void {
-    if (!this.ctx || !this.musicGain || save.data.settings.music <= 0) return;
+    if (!this.ctx || !this.musicGain || save.data.settings.music <= 0 || this.themeActive) return;
     const sc = SCALES[this.tier] ?? SCALES[1];
     const base = 196 * 2 ** ((this.tier - 1) / 12);
     const note = (i: number, oct: number): number => base * 2 ** (oct + sc[i % sc.length] / 12);
@@ -88,6 +149,8 @@ class AudioEngine {
   }
   dispose(): void {
     if (this.timer) clearInterval(this.timer);
+    if (this.fadeTimer) clearInterval(this.fadeTimer);
+    this.theme?.pause();
   }
 }
 export const audio = new AudioEngine();

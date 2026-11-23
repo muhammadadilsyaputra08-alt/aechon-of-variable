@@ -17,6 +17,8 @@ export interface Scene {
   back?(): boolean;
   /** Bila true, scene di bawahnya tetap digambar (modal). */
   modal?: boolean;
+  /** Bila true, scene memakai musik ambient prosedural, bukan tema Vara-Loka (puzzle, dialog, boss). */
+  ambient?: boolean;
 }
 
 export class App {
@@ -118,6 +120,14 @@ export class App {
     this.toasts.forEach((x) => (x.t -= dt));
     this.toasts = this.toasts.filter((x) => x.t > 0);
     this.top?.update?.(dt);
+    this.syncMusic();
+  }
+  /** Tema Vara-Loka diputar di menu/peta; scene bertanda `ambient` memakai musik prosedural. Modal mengikuti scene di bawahnya. */
+  private syncMusic(): void {
+    let i = this.stack.length - 1;
+    while (i > 0 && this.stack[i].modal) i--;
+    const s = this.stack[i];
+    audio.setTheme(!!s && !s.ambient);
   }
   draw(): void {
     const g = this.g;

@@ -20,7 +20,7 @@ Dibangun dari PRD *Archon of Variables* dan asset pack `archon_of_variables_asse
 | Challenge / Review / Guardian Rematch | `scenes/challenge.ts` — medali, kesulitan adaptif |
 | Boss (4 Guardian, multi-fase, tanpa timer) | `scenes/campaign.ts` |
 | Achievement, Settings, Save otomatis | `data/achievements.ts`, `scenes/menu.ts`, `engine/save.ts` |
-| Audio | `engine/audio.ts` — SFX & musik ambient prosedural per tier (tanpa berkas audio) |
+| Audio | `engine/audio.ts` — SFX & musik ambient prosedural per tier; tema Vara-Loka (`public/audio/vara-loka-theme.mp3`, "The Weight of Blessed Air") diputar di menu/peta |
 
 ## Menjalankan
 ```bash

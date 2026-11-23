@@ -30,6 +30,7 @@ interface KnobBox { k: Knob; x: number; y: number; w: number; h: number; inside:
 const nq = (x: number): Q => (Number.isInteger(x) ? q(x) : (parseQ(String(x)) ?? q(0)));
 
 export class PuzzleScene implements Scene {
+  ambient = true;
   private ui = new UI();
   private vals: Answer = {};
   private init: Answer = {};

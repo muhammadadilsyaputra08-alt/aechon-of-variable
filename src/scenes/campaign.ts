@@ -145,6 +145,7 @@ class IntroCard implements Scene {
 
 /* ---------- Boss ---------- */
 export class BossScene implements Scene {
+  ambient = true;
   private ui = new UI();
   private tt = 0;
   private btn: Button;

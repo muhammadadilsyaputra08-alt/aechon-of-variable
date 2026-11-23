@@ -71,6 +71,9 @@ export function buildHints(c: Candidate): string[] {
 export function validateCandidate(c: Candidate): Candidate {
   const reject = (reason: string): Candidate => ({ ...c, status: 'Rejected', rejectReason: reason });
 
+  // 0. Soal timbangan tidak boleh sudah berbentuk sederhana (mis. 'x = 2'): tidak ada yang perlu diseimbangkan.
+  if (c.kind === 'balance' && /^\s*x\s*=\s*-?\d+\s*$/.test(String((c.data as { eq?: string }).eq ?? ''))) return reject('Soal sudah berbentuk sederhana');
+
   // 1. Internal solving (dari struktur yang ditampilkan)
   const s = solveCandidate(c);
   if (!s) return reject('Solver tidak menemukan solusi tervalidasi');

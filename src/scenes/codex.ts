@@ -183,7 +183,9 @@ export class CodexScene implements Scene {
   }
   private practice(): void {
     const cand = warehouse.pick({ topics: [this.topic], difficulty: 2 });
-    app.push(new PuzzleScene({ cand, tier: TOPIC_BY_CODE[this.topic].tier, badge: this.topic, practice: true, onDone: () => app.pop(), onQuit: () => app.pop() }), true);
+    // Kedalaman tumpukan sebelum puzzle dibuka: 'Keluar' dari Jeda harus menutup puzzle (bukan hanya modal Jeda).
+    const depth = app.stack.length;
+    app.push(new PuzzleScene({ cand, tier: TOPIC_BY_CODE[this.topic].tier, badge: this.topic, practice: true, onDone: () => app.popTo(depth), onQuit: () => app.popTo(depth) }), true);
   }
   update(dt: number): void { this.ui.update(dt); }
   draw(g: Gfx): void {

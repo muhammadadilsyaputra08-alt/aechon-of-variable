@@ -59,7 +59,8 @@ const genA01: Gen = (r, d) => {
 };
 const genA05: Gen = (r, d) => {
   const x = r.int(1, 5 + 2 * d);
-  const a = d <= 2 ? r.int(1, 3) : r.int(2, 5);
+  // d=2 tanpa konstanta: koefisien minimal 2 agar soal tidak langsung berbentuk 'x = n' (sudah seimbang).
+  const a = d === 1 ? r.int(1, 3) : d === 2 ? r.int(2, 3) : r.int(2, 5);
   const c = d >= 4 ? r.int(1, a - 1) : 0;
   const b = d === 1 || d === 2 ? (d === 1 ? r.int(1, 6) : 0) : r.int(1, 8);
   const aa = d === 1 ? 1 : a;
