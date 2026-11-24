@@ -51,7 +51,7 @@ function sysQ(expr: string, x: number, y: number): ReturnType<Make> {
   return { kind: 'point', expr, answer: `(${x}, ${y})`, steps: [`x = ${x}`, `y = ${y}`, `(${x}, ${y})`], traps: [{ src: `(${y}, ${x})`, tag: 'concept', msg: 'Urutan titik adalah (x, y).' }] };
 }
 function twoRoots(r: Rng, hi: number): [number, number] {
-  let p = nz(r, 1, hi + 1);
+  const p = nz(r, 1, hi + 1);
   let s = nz(r, 1, hi + 1);
   if (p === s) s = -s;
   return [p, s];
@@ -510,7 +510,10 @@ const M: Record<string, Make> = {
   sys_3: (r) => {
     let x = nz(r, 1, 4);
     let y = nz(r, 1, 4);
-    let a1 = r.int(1, 3), b1 = r.int(1, 3), a2 = r.int(1, 3), b2 = -r.int(1, 3);
+    const a1 = r.int(1, 3);
+    const b2 = -r.int(1, 3);
+    let b1 = r.int(1, 3);
+    let a2 = r.int(1, 3);
     if (a1 * b2 - a2 * b1 === 0) { a2 += 1; }
     if (a1 * b2 - a2 * b1 === 0) { b1 += 1; }
     x = x || 1; y = y || 1;

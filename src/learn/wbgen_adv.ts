@@ -198,7 +198,7 @@ export const ADV: Record<string, Make> = {
     };
   },
   qf_4: (r, d) => {
-    let p = nz(r, 1, 3 + d);
+    const p = nz(r, 1, 3 + d);
     let s = nz(r, 1, 3 + d);
     if (p === s) s = -s;
     const lo = Math.min(p, s);
@@ -286,7 +286,7 @@ export const ADV: Record<string, Make> = {
     return { kind: 'equation', expr: 'f(x) = (2x + 4)/(x + 1),  f(x) = 0', answer: 'x = -2', steps: ['2x + 4 = 0', 'x = -2'], traps: [] };
   },
   rf_6: (r, d) => {
-    let p = nz(r, 1, 3 + d);
+    const p = nz(r, 1, 3 + d);
     let s = nz(r, 1, 3 + d);
     if (p === s) s = -s;
     const lo = Math.min(p, s);
