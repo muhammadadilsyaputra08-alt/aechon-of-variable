@@ -12,6 +12,9 @@ import { PuzzleScene } from './scenes/puzzle';
 import { warehouse } from './archivist/warehouse';
 import { TopicCode } from './data/topics';
 import './scenes/lab';
+import './scenes/curriculum';
+import './scenes/archive';
+import './learn/store';
 import './scenes/challenge';
 
 const canvas = document.getElementById('game') as HTMLCanvasElement;
@@ -25,9 +28,28 @@ nav.codex = (topic) => new CodexScene(topic);
 nav.settings = () => new SettingsScene();
 nav.campaign = () => new CampaignScene();
 
-function fit(): void {
-  g.resize(window.innerWidth, window.innerHeight, window.devicePixelRatio || 1);
+/** Ruang aman (notch, gesture bar) dibaca dari env(safe-area-inset-*). */
+function insets(): { l: number; r: number; t: number; b: number } {
+  const probe = document.createElement('div');
+  probe.style.cssText = 'position:fixed;visibility:hidden;padding:env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left)';
+  document.body.appendChild(probe);
+  const cs = getComputedStyle(probe);
+  const v = { t: parseFloat(cs.paddingTop) || 0, r: parseFloat(cs.paddingRight) || 0, b: parseFloat(cs.paddingBottom) || 0, l: parseFloat(cs.paddingLeft) || 0 };
+  probe.remove();
+  return v;
 }
+/** Menyesuaikan layar: skala pecahan memenuhi perangkat apa pun (rasio 4:3 hingga 21:9), tanpa memotong. */
+function fit(): void {
+  const vv = window.visualViewport;
+  const iw = vv?.width ?? window.innerWidth;
+  const ih = vv?.height ?? window.innerHeight;
+  const s = insets();
+  g.resize(Math.max(160, iw - s.l - s.r), Math.max(90, ih - s.t - s.b), window.devicePixelRatio || 1);
+  document.body.style.paddingLeft = `${s.l}px`;
+  document.body.style.paddingTop = `${s.t}px`;
+  document.body.classList.toggle('portrait', ih > iw * 1.15);
+}
+window.visualViewport?.addEventListener('resize', fit);
 window.addEventListener('resize', fit);
 window.addEventListener('orientationchange', fit);
 fit();
@@ -79,6 +101,10 @@ window.addEventListener('blur', () => release(true));
 canvas.addEventListener('contextmenu', (e) => e.preventDefault());
 window.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') app.back();
+  else if (!e.ctrlKey && !e.metaKey && !e.altKey) {
+    app.key(e.key);
+    if (e.key === 'Backspace' || e.key === ' ') e.preventDefault();
+  }
 });
 
 document.addEventListener('visibilitychange', () => {

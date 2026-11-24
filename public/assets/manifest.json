@@ -5,7 +5,7 @@
     320,
     180
   ],
-  "scale_policy": "integer nearest-neighbor (6x=1920x1080, 4x=1280x720); letterbox sisanya",
+  "scale_policy": "skala pecahan memenuhi layar (render kelipatan bulat, diperkecil halus); safe-area diperhitungkan",
   "palette": "palette/archon_master.json",
   "sheets": {
     "crystals": {
@@ -1552,6 +1552,149 @@
         }
       },
       "animations": {}
+    },
+    "ui_learn": {
+      "file": "ui/ui_learn.png",
+      "size": [
+        128,
+        32
+      ],
+      "cell": [
+        16,
+        16
+      ],
+      "frames": {
+        "heart_full": {
+          "x": 0,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "heart_empty": {
+          "x": 16,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "pip_full": {
+          "x": 32,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "pip_empty": {
+          "x": 48,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "bolt": {
+          "x": 64,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "mark_ok": {
+          "x": 80,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "mark_bad": {
+          "x": 96,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "mark_part": {
+          "x": 112,
+          "y": 0,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_infinity": {
+          "x": 0,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_pencil": {
+          "x": 16,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_book": {
+          "x": 32,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_swords": {
+          "x": 48,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        },
+        "icon_stairs": {
+          "x": 64,
+          "y": 16,
+          "w": 16,
+          "h": 16,
+          "pivot": [
+            8,
+            8
+          ]
+        }
+      }
     }
   },
   "images": {

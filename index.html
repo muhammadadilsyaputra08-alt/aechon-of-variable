@@ -8,13 +8,16 @@
     <title>Archon of Variables</title>
     <link rel="icon" href="./assets/ui/app_icon_64.png" />
     <style>
-      html, body { margin: 0; height: 100%; background: #08060f; overflow: hidden; overscroll-behavior: none; }
+      html, body { margin: 0; height: 100%; box-sizing: border-box; background: radial-gradient(ellipse at center, #1a0f2a 0%, #08060f 75%); overflow: hidden; overscroll-behavior: none; }
       body { display: flex; align-items: center; justify-content: center; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
       canvas { image-rendering: pixelated; image-rendering: crisp-edges; display: block; touch-action: none; }
+      #rotate { display: none; position: fixed; left: 0; right: 0; bottom: 8%; text-align: center; font: 700 14px 'Pixelify Sans', sans-serif; color: #f4c038; pointer-events: none; }
+      body.portrait #rotate { display: block; }
     </style>
   </head>
   <body>
     <canvas id="game" width="320" height="180" aria-label="Archon of Variables"></canvas>
+    <div id="rotate">⟳ Putar perangkat ke mode landscape untuk pengalaman terbaik</div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>

@@ -22,6 +22,9 @@ Dibangun dari PRD *Archon of Variables* dan asset pack `archon_of_variables_asse
 | Achievement, Settings, Save otomatis | `data/achievements.ts`, `scenes/menu.ts`, `engine/save.ts` |
 | Audio | `engine/audio.ts` — SFX & musik ambient prosedural per tier; tema Vara-Loka (`public/audio/vara-loka-theme.mp3`, "The Weight of Blessed Air") diputar di menu/peta |
 
+## Sistem pembelajaran v2
+Campaign = Tier → Level → Sublevel (Guide→Basic→Inter→Adv→Mastery→Challenge), Mathematical Workboard, boss ber-HP, The Infinite Archive, resume progres. Peta lengkap: **[PROJECT_MAP.md](PROJECT_MAP.md)**.
+
 ## Menjalankan
 ```bash
 npm ci

@@ -9,11 +9,14 @@ import { FLOORS, FloorDef, GUARDIANS, GuardianDef, TIERS, floorByN, tierInfo } f
 import { TOPIC_BY_CODE } from '../data/topics';
 import { EPILOGUE, FLOOR_INTRO, FLOOR_OUTRO, GUARDIAN_POST, GUARDIAN_PRE, PROLOGUE, TIER_INTRO, TUTORIAL } from '../data/story';
 import { warehouse } from '../archivist/warehouse';
-import { PuzzleResult, checkAchievements, markLearned } from '../engine/progress';
+import { checkAchievements, markLearned } from '../engine/progress';
 import { DialogueScene } from './dialogue';
 import { PuzzleScene } from './puzzle';
 import { bar, drawBg, drawStars, panel, sparkle } from './common';
 import { AchievementsScene } from './menu';
+import { SceneSlot as LSlot, runBoss, runGoals } from './learn';
+import { floorGoals } from '../learn/curriculum';
+import { floorStars } from '../learn/store';
 
 export type Step = (next: () => void) => void;
 
@@ -29,15 +32,8 @@ export function runSteps(steps: Step[], depth: number, onEnd: () => void): void 
   next();
 }
 
-export class SceneSlot {
-  first = true;
-  go(s: Scene): void {
-    if (this.first) {
-      this.first = false;
-      app.push(s);
-    } else app.replace(s);
-  }
-}
+export const SceneSlot = LSlot;
+export type SceneSlot = LSlot;
 
 export function guardianSteps(def: GuardianDef, tier: number, slot: SceneSlot, depth: number, story: boolean, seedBase: number): Step[] {
   const steps: Step[] = [];
@@ -64,6 +60,7 @@ export function startFloor(n: number): void {
   const tier = f.tier;
   const steps: Step[] = [];
   const stars: number[] = [...save.floorRec(n).stars];
+  void stars;
   const hadCleared = save.floorRec(n).cleared;
 
   if (n === 1 && !save.data.prologueDone) steps.push((next) => slot.go(new DialogueScene(PROLOGUE, { tier, onDone: () => ((save.data.prologueDone = true), save.commit(), next()) })));
@@ -72,30 +69,18 @@ export function startFloor(n: number): void {
   if (n === tinfo.from && !save.data.flags[`tier${tier}`]) steps.push((next) => slot.go(new DialogueScene(TIER_INTRO[tier], { tier, onDone: () => ((save.data.flags[`tier${tier}`] = 1), save.commit(), next()) })));
   steps.push((next) => slot.go(new DialogueScene([FLOOR_INTRO[n - 1]], { tier, onDone: next })));
   steps.push((next) => slot.go(new IntroCard(f, next, quit)));
-  f.slots.forEach((s, i) => {
-    steps.push((next) => {
-      const cand = warehouse.curated(s.topic, s.seed, s.target);
-      slot.go(new PuzzleScene({
-        cand, tier, badge: `Lt ${n}`, progress: `${i + 1}/${f.slots.length}`,
-        onDone: (r: PuzzleResult) => {
-          stars[i] = Math.max(stars[i] ?? 0, r.stars);
-          next();
-        },
-        onQuit: quit,
-      }));
-    });
-  });
+  // Kurikulum: sublevel bertahap per materi (resume otomatis), lalu Guardian ber-HP.
+  steps.push((next) => runGoals(floorGoals(n), slot, depth, tier, next));
   if (f.guardian) {
     const def = GUARDIANS[f.guardian];
-    steps.push(...guardianSteps(def, tier, slot, depth, true, n * 4001));
-    steps.push((next) => {
-      if (!save.data.guardians.includes(GUARDIAN_INDEX[def.id])) save.data.guardians.push(GUARDIAN_INDEX[def.id]);
-      next();
-    });
+    steps.push((next) => slot.go(new DialogueScene(GUARDIAN_PRE[def.id], { tier, onDone: next })));
+    steps.push((next) => runBoss(def, tier, slot, depth, next));
+    steps.push((next) => slot.go(new DialogueScene(GUARDIAN_POST[def.id], { tier, onDone: next })));
   }
   steps.push((next) => {
     const first = !hadCleared;
-    save.data.floors[n] = { cleared: true, stars: f.slots.map((_, i) => stars[i] ?? 1) };
+    const fs = floorStars(n);
+    save.data.floors[n] = { cleared: true, stars: f.slots.map((_, i) => Math.max(fs, stars[i] ?? 0)) };
     if (first) {
       save.data.shards += f.rewards.shard;
       save.data.kp += f.rewards.kp;
@@ -248,6 +233,7 @@ export class CampaignScene implements Scene {
     });
     this.ui.add(new Button(8, 158, 60, 18, () => t('back'), () => app.pop(), { size: 8 }));
     this.ui.add(new Button(252, 158, 60, 18, '', () => app.push(new AchievementsScene()), { icon: 'star_full' }));
+    this.ui.add(new Button(184, 158, 62, 18, 'Kurikulum', () => app.push(nav.curriculum()), { size: 6 }));
     this.setTier(this.tier);
   }
   private setTier(tier: 1 | 2 | 3 | 4): void {

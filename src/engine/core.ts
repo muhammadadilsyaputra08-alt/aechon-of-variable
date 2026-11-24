@@ -13,6 +13,8 @@ export interface Scene {
   up?(x: number, y: number): void;
   /** Sentuhan dibatalkan (pointer hilang): lepaskan semua tombol tanpa memicu aksi. */
   cancel?(): void;
+  /** Papan ketik fisik (desktop). */
+  key?(k: string): void;
   /** Tombol back Android / Esc. Kembalikan true bila sudah ditangani. */
   back?(): boolean;
   /** Bila true, scene di bawahnya tetap digambar (modal). */
@@ -156,6 +158,9 @@ export class App {
   up(x: number, y: number): void {
     // Selalu teruskan 'up' agar tombol yang sedang ditekan dilepas (tidak macet saat transisi fade).
     this.top?.up?.(x, y);
+  }
+  key(k: string): void {
+    if (!this.blocked()) this.top?.key?.(k);
   }
   /** Batalkan interaksi sentuh yang menggantung (pointer hilang, app ke latar belakang). */
   cancelInput(): void {

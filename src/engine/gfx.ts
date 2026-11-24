@@ -47,14 +47,17 @@ export class Gfx {
     this.ctx = ctx;
   }
 
+  /** Skala pecahan: kanvas dirender pada kelipatan bulat ≥ piksel perangkat lalu diperkecil halus ke ukuran CSS. */
   resize(viewW: number, viewH: number, dpr: number): void {
-    const s = Math.max(1, Math.floor(Math.min((viewW * dpr) / W, (viewH * dpr) / H)));
+    const css = Math.min(viewW / W, viewH / H);
+    const dev = css * dpr;
+    const s = Math.max(1, Math.min(8, Math.ceil(dev - 0.001)));
     this.scale = s;
     this.canvas.width = W * s;
     this.canvas.height = H * s;
-    const cssScale = Math.min(viewW / W, viewH / H);
-    this.canvas.style.width = `${Math.floor(W * cssScale)}px`;
-    this.canvas.style.height = `${Math.floor(H * cssScale)}px`;
+    this.canvas.style.width = `${Math.floor(W * css)}px`;
+    this.canvas.style.height = `${Math.floor(H * css)}px`;
+    this.canvas.style.imageRendering = Math.abs(dev - s) < 0.01 ? 'pixelated' : 'auto';
   }
 
   begin(): void {

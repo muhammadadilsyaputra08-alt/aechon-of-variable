@@ -13,6 +13,7 @@ import { Q, q, add, cmp, fmtQ, toNumber, parseQ } from '../math/rational';
 import { AREA, VIEWS, VCtx, tapView } from './views';
 import { drawBg, drawStars, panel, sparkle } from './common';
 import { HintScene, NumpadScene, PauseScene } from './modals';
+import { WorkboardScene } from './workboard';
 
 export interface PuzzleOpts {
   cand: Candidate;
@@ -21,6 +22,8 @@ export interface PuzzleOpts {
   progress?: string;
   timer?: number;
   practice?: boolean;
+  /** Satu kesempatan menjawab (Boss Battle): jawaban salah mengakhiri soal. */
+  oneShot?: boolean;
   onDone: (r: PuzzleResult) => void;
   onQuit?: () => void;
 }
@@ -46,6 +49,7 @@ export class PuzzleScene implements Scene {
   private fb = { text: '', color: C.cream3, t: 0 };
   private fails = 0;
   private shake = 0;
+  private failEnd = 0;
   private spot = 0;
   private revealT = 0;
   private boxes: KnobBox[] = [];
@@ -82,13 +86,14 @@ export class PuzzleScene implements Scene {
   private buildHud(): void {
     const icons: Array<[string, () => void]> = [
       ['icon_hint', () => this.openHint()],
+      ['', () => app.push(new WorkboardScene({ q: null, tier: this.o.tier, badge: 'Coret', practice: true, onDone: () => app.pop(false), onQuit: () => app.pop(false) }), false)],
       ['icon_undo', () => this.undo()],
       ['icon_reset', () => this.reset()],
       ['icon_codex', () => app.push(nav.codex(this.o.cand.topic), false)],
       ['icon_pause', () => app.push(new PauseScene(this.o.cand, () => (this.o.onQuit ?? (() => app.reset(nav.title())))()), false)],
     ];
     icons.forEach(([ic, fn], i) => {
-      const b = this.ui.add(new Button(320 - (5 - i) * 18 - 1, 1, 17, 17, '', fn, { icon: ic }));
+      const b = this.ui.add(new Button(320 - (6 - i) * 18 - 1, 1, 17, 17, ic ? '' : 'Wb', fn, ic ? { icon: ic } : { size: 6 }));
       if (i === 0) this.btnHint = b;
     });
   }
@@ -280,7 +285,7 @@ export class PuzzleScene implements Scene {
     if (r.ok) this.win();
   }
   private submit(): void {
-    if (this.solved) return;
+    if (this.solved || this.failEnd > 0) return;
     this.attempts++;
     const r = verifyAnswer(this.o.cand, this.vals);
     if (r.ok) this.win();
@@ -295,6 +300,10 @@ export class PuzzleScene implements Scene {
     if (this.fails >= 3 && this.o.cand.misconceptions[0]) text = `${msg} Miskonsepsi umum: ${this.o.cand.misconceptions[0]}`;
     else if (this.fails === 2) text = `${msg} Coba buka petunjuk (ikon bohlam).`;
     this.say(text, C.red3, 6);
+    if (this.o.oneShot) {
+      this.failEnd = 1.5;
+      this.say('Jawaban salah! Guardian membalas.', C.red3, 3);
+    }
   }
   private win(): void {
     this.solved = true;
@@ -332,6 +341,13 @@ export class PuzzleScene implements Scene {
     else this.revealT += dt;
     if (this.fb.t > 0 && !this.solved) this.fb.t -= dt;
     this.shake = Math.max(0, this.shake - dt);
+    if (this.failEnd > 0) {
+      this.failEnd -= dt;
+      if (this.failEnd <= 0 && !this.ended) {
+        this.ended = true;
+        this.o.onDone({ stars: 0, attempts: Math.max(1, this.attempts), hints: this.hintLevel, steps: this.steps, seconds: Math.round(this.elapsed), success: false });
+      }
+    }
     this.tiltT = Math.max(0, this.tiltT - dt);
     this.spot = Math.max(0, this.spot - dt);
     if (this.o.timer && !this.solved && !this.ended && this.elapsed >= this.o.timer) {
@@ -344,7 +360,7 @@ export class PuzzleScene implements Scene {
       b.visible = dv && this.op !== 'div';
       b.enabled = !this.solved;
     });
-    if (this.btnSubmit) this.btnSubmit.enabled = !this.solved;
+    if (this.btnSubmit) this.btnSubmit.enabled = !this.solved && this.failEnd <= 0;
     this.btnDone.visible = this.solved && this.revealT > 0.7;
   }
   private vctx(t0: number): VCtx {
@@ -362,10 +378,10 @@ export class PuzzleScene implements Scene {
     if (this.o.progress) g.text(this.o.progress, 4, 19, { size: 6, color: C.stone3, shadow: null });
     const prompt = tb(c.prompt);
     let size = 8;
-    let lines = g.wrap(prompt, 176, size);
+    let lines = g.wrap(prompt, 158, size);
     if (lines.length > 2) {
       size = 6;
-      lines = g.wrap(prompt, 176, size);
+      lines = g.wrap(prompt, 158, size);
     }
     lines.slice(0, 2).forEach((l, i) => g.text(l, 46, 2 + i * (size + 1), { size, color: C.cream3 }));
     if (this.o.timer) {

@@ -5,7 +5,7 @@ import { audio } from '../engine/audio';
 import { Q, parseQ, fmtQ } from '../math/rational';
 import { t } from '../engine/i18n';
 import { drawPortrait, panel } from './common';
-import { Candidate } from '../archivist/types';
+import { TopicCode } from '../data/topics';
 import { nav } from '../engine/nav';
 
 export class NumpadScene implements Scene {
@@ -58,7 +58,7 @@ export class HintScene implements Scene {
   private ui = new UI();
   private btnNext: Button;
   private btnGuide: Button | null = null;
-  constructor(private c: Candidate, private level: number, private onReveal: (lv: number) => void, private onGuide?: () => void) {
+  constructor(private c: { hints: string[] }, private level: number, private onReveal: (lv: number) => void, private onGuide?: () => void) {
     this.ui.add(new Button(250, 24, 16, 16, 'x', () => app.pop(false), { icon: 'icon_close' }));
     this.btnNext = this.ui.add(new Button(180, 150, 100, 18, t('moreHint'), () => this.reveal(), { size: 8 }));
     if (onGuide) {
@@ -104,7 +104,7 @@ export class HintScene implements Scene {
 export class PauseScene implements Scene {
   modal = true;
   private ui = new UI();
-  constructor(c: Candidate | null, onQuit: () => void) {
+  constructor(c: { topic: TopicCode } | null, onQuit: () => void) {
     const x = 110;
     this.ui.add(new Button(x, 52, 100, 20, t('resume'), () => app.pop(false)));
     if (c) this.ui.add(new Button(x, 76, 100, 20, t('codex'), () => app.push(nav.codex(c.topic), false)));

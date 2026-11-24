@@ -56,6 +56,23 @@ export function pPow(a: Poly, e: number): Poly {
 }
 export const pIsZero = (a: Poly): boolean => a.size === 0;
 export const pEq = (a: Poly, b: Poly): boolean => pIsZero(pSub(a, b));
+/** Pembagian eksak oleh monomial (mis. 6x^2/(3x)). Gagal bila ada suku yang tidak habis dibagi. */
+export function pDivMono(a: Poly, b: Poly): Poly {
+  if (b.size !== 1) throw new MathError('Pembagi harus berupa satu suku');
+  const [[bk, bc]] = [...b];
+  const bm = unmono(bk);
+  const out: Poly = new Map();
+  for (const [k, c] of a) {
+    const m = unmono(k);
+    const r: Record<string, number> = { ...m };
+    for (const [v, e] of Object.entries(bm)) {
+      if ((m[v] ?? 0) < e) throw new MathError('Pembagian tidak habis');
+      r[v] = (m[v] ?? 0) - e;
+    }
+    out.set(mono(r), div(c, bc));
+  }
+  return out;
+}
 export const pIsConst = (a: Poly): boolean => a.size === 0 || (a.size === 1 && a.has(''));
 export const pConstValue = (a: Poly): Q => a.get('') ?? ZERO;
 
@@ -178,8 +195,10 @@ class Parser {
         const rhs = this.unary();
         if (t.v === '*') r = pMul(r, rhs);
         else {
-          if (!pIsConst(rhs) || isZero(pConstValue(rhs))) throw new MathError('Pembagi harus konstanta tak nol');
-          r = pMul(r, pConst(div(ONE, pConstValue(rhs))));
+          if (pIsConst(rhs)) {
+            if (isZero(pConstValue(rhs))) throw new MathError('Pembagi tidak boleh nol');
+            r = pMul(r, pConst(div(ONE, pConstValue(rhs))));
+          } else r = pDivMono(r, rhs);
         }
       } else if (t && (t.t === 'var' || t.t === 'lp')) {
         r = pMul(r, this.power()); // perkalian implisit: 2x, 3(x+1), (x+1)(x-2)

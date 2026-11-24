@@ -7,6 +7,8 @@ export const nav: {
   codex: (topic?: TopicCode) => Scene;
   settings: () => Scene;
   campaign: () => Scene;
+  curriculum: () => Scene;
+  archive: () => Scene;
 } = {
   title: () => {
     throw new Error('nav.title belum terdaftar');
@@ -19,5 +21,11 @@ export const nav: {
   },
   campaign: () => {
     throw new Error('nav.campaign belum terdaftar');
+  },
+  curriculum: () => {
+    throw new Error('nav.curriculum belum terdaftar');
+  },
+  archive: () => {
+    throw new Error('nav.archive belum terdaftar');
   },
 };

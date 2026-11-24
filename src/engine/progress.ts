@@ -24,13 +24,13 @@ export function starsFor(c: Candidate, attempts: number, hints: number, steps: n
   return 1 + (efficient ? 1 : 0) + (attempts === 1 && hints === 0 ? 1 : 0);
 }
 
-export function recordMistake(c: Candidate): void {
+export function recordMistake(c: { topic: string }): void {
   const s = save.data.stats;
   s.mistakes++;
   s.mistakesByTopic[c.topic] = (s.mistakesByTopic[c.topic] ?? 0) + 1;
   save.commit();
 }
-export function recordHint(c: Candidate): void {
+export function recordHint(c: { topic: string }): void {
   const s = save.data.stats;
   s.hints++;
   s.hintsByTopic[c.topic] = (s.hintsByTopic[c.topic] ?? 0) + 1;
@@ -45,7 +45,7 @@ export function markLearned(topic: string): boolean {
 }
 
 /** Dipanggil saat puzzle berhasil. Mengembalikan jumlah shard yang didapat. */
-export function recordSuccess(c: Candidate, res: PuzzleResult, practice: boolean): number {
+export function recordSuccess(c: { topic: string; kind: string }, res: PuzzleResult, practice: boolean): number {
   const s = save.data.stats;
   s.solved++;
   s.byKind[c.kind] = (s.byKind[c.kind] ?? 0) + 1;

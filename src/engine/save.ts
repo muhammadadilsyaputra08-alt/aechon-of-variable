@@ -1,5 +1,6 @@
 /** Penyimpanan lokal otomatis (localStorage). Tidak ada hukuman progres permanen. */
 import { Lang, setLang } from './i18n';
+import { LearnData, freshLearn } from '../learn/types';
 
 export interface Settings {
   lang: Lang;
@@ -25,7 +26,7 @@ export interface Stats {
   recent: boolean[]; // 10 hasil terakhir (true = benar tanpa salah)
 }
 export interface SaveData {
-  v: 1;
+  v: 2;
   settings: Settings;
   floors: Record<number, FloorRec>;
   shards: number;
@@ -41,11 +42,13 @@ export interface SaveData {
   prologueDone: boolean;
   medals: Record<string, 'bronze' | 'silver' | 'gold'>;
   labs: Record<string, number[]>;
+  /** v2: kurikulum level/sublevel, sesi boss, riwayat soal, statistik Archive */
+  learn: LearnData;
 }
 
 const KEY = 'archon_of_variables_save_v1';
 const fresh = (): SaveData => ({
-  v: 1,
+  v: 2,
   settings: { lang: 'id', textScale: 1, animSpeed: 1, typeSpeed: 1, reduceFx: false, music: 0.5, sfx: 0.8 },
   floors: {},
   shards: 0,
@@ -61,10 +64,13 @@ const fresh = (): SaveData => ({
   prologueDone: false,
   medals: {},
   labs: {},
+  learn: freshLearn(),
 });
 
 class SaveStore {
   data: SaveData = fresh();
+  /** Dipasang oleh learn/store untuk migrasi data lama (menghindari impor melingkar). */
+  migrate: ((d: SaveData) => void) | null = null;
   private timer: ReturnType<typeof setTimeout> | null = null;
 
   load(): void {
@@ -73,7 +79,9 @@ class SaveStore {
       if (raw) {
         const parsed = JSON.parse(raw) as Partial<SaveData>;
         const base = fresh();
-        this.data = { ...base, ...parsed, settings: { ...base.settings, ...parsed.settings }, stats: { ...base.stats, ...parsed.stats } };
+        this.data = { ...base, ...parsed, v: 2, settings: { ...base.settings, ...parsed.settings }, stats: { ...base.stats, ...parsed.stats }, learn: { ...base.learn, ...parsed.learn, arch: { ...base.learn.arch, ...parsed.learn?.arch } } };
+        // Migrasi v1 → v2: lantai yang sudah selesai dianggap menuntaskan sublevel yang bersangkutan.
+        if ((parsed as { v?: number }).v !== 2) this.migrate?.(this.data);
       }
     } catch {
       this.data = fresh();

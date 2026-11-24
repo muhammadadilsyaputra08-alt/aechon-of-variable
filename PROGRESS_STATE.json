@@ -1,0 +1,38 @@
+{
+  "mode": "adopt",
+  "phase": "implementation",
+  "architecture_summary": "TS + Canvas2D + Vite + Capacitor. Workboard Question Factory (learn/wbgen*.ts) -> Step Validator (learn/stepcheck.ts) -> scenes/workboard.ts; kurikulum di learn/curriculum.ts.",
+  "verified_files": [
+    "src/math/special.ts",
+    "src/learn/wbgen_adv.ts",
+    "src/learn/wbgen.ts",
+    "src/learn/stepcheck.ts",
+    "src/learn/curriculum.ts",
+    "src/scenes/workboard.ts"
+  ],
+  "completed": [
+    "Workboard A12, A13, A18, A19, A20 (tipe rad + value/equation/point/roots/ineq)",
+    "Workboard A22-A25 (tipe matrix baru, keypad [ ])"
+  ],
+  "pending_tasks": [
+    "Workboard A21 dan A26-A30",
+    "Uji main di perangkat Android: jumlah soal per sublevel, HP boss, lebar expr matriks",
+    "Jalankan npm ci && npm test && npm run build (belum bisa: tanpa jaringan)",
+    "Terjemahan EN untuk teks baru"
+  ],
+  "known_issues": [
+    "vitest/vite build belum dijalankan di sesi ini; validasi lewat tsc + harness Node (12.900 soal valid)",
+    "Glyph √ pada font piksel belum dilihat di perangkat"
+  ],
+  "quality_gate": {
+    "typecheck": "PASS (kecuali tipe vite/client tak terpasang)",
+    "unit": "SKIPPED (vitest tak terpasang)",
+    "build": "SKIPPED",
+    "security_audit": "SKIPPED (secret scan PASS, dependency audit tak jalan tanpa jaringan)",
+    "dependency_audit": "SKIPPED"
+  },
+  "project_name": "archon-of-variables",
+  "current_phase": "implementation",
+  "last_updated": "2026-11-25",
+  "session_summary": "Workboard ditambah untuk A12-A13, A18-A20, A22-A25 (43 varian baru, tipe soal rad dan matrix). 12.900 soal valid via harness Node; build/vitest menunggu npm ci."
+}

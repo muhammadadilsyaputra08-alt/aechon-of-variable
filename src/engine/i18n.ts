@@ -9,6 +9,8 @@ export const getLang = (): Lang => lang;
 const D: Record<string, Bi> = {
   title: { id: 'ARCHON OF VARIABLES', en: 'ARCHON OF VARIABLES' },
   tagline: { id: 'Pulihkan Menara. Kuasai yang Tak Diketahui.', en: 'Restore the Tower. Master the Unknown.' },
+  archive: { id: 'The Infinite Archive', en: 'The Infinite Archive' },
+  curriculum: { id: 'Kurikulum', en: 'Curriculum' },
   continue: { id: 'Lanjutkan', en: 'Continue' },
   campaign: { id: 'Kampanye', en: 'Campaign' },
   codex: { id: 'Algebra Codex', en: 'Algebra Codex' },

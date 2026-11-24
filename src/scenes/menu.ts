@@ -56,13 +56,15 @@ export class TitleScene implements Scene {
     const items: Array<[string, () => void]> = [
       ['continue', () => app.push(nav.campaign())],
       ['campaign', () => app.push(nav.campaign())],
+      ['archive', () => app.push(nav.archive())],
       ['codex', () => app.push(nav.codex())],
       ['sandbox', () => app.push(new (SceneRegistry.lab!)())],
       ['challenge', () => app.push(new (SceneRegistry.challenge!)())],
+      ['curriculum', () => app.push(nav.curriculum())],
       ['settings', () => app.push(nav.settings())],
     ];
     items.forEach(([key, fn], i) => {
-      const b = this.ui.add(new Button(20 + (i % 2) * 150, 96 + Math.floor(i / 2) * 25, 130, 21, () => t(key), fn, { size: 8 }));
+      const b = this.ui.add(new Button(20 + (i % 2) * 150, 88 + Math.floor(i / 2) * 22, 130, 19, () => t(key), fn, { size: 8 }));
       if (key === 'continue') b.enabled = Object.keys(save.data.floors).length > 0;
     });
   }
@@ -80,7 +82,7 @@ export class TitleScene implements Scene {
     sparkle(g, app.time, 24, 0, 0, W, 90);
     g.text(t('title'), 160, 18, { size: 16, align: 'center', color: C.gold2, bold: true });
     g.text(t('tagline'), 160, 40, { size: 8, align: 'center', color: C.cyan3 });
-    g.spr('characters', `axiom_idle_${Math.floor(app.time * 3) % 3}`, 160, 88, { pivot: true, s: 1 });
+    g.spr('characters', `axiom_idle_${Math.floor(app.time * 3) % 3}`, 160, 82, { pivot: true, s: 1 });
     this.ui.draw(g);
     g.icon('arcane_shard', 6, 164);
     g.text(String(save.data.shards), 24, 168, { size: 8, color: C.gold3 });
